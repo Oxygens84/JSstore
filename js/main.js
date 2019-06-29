@@ -46,7 +46,7 @@ function createProduct (i) {
 						<img src="${this.img}" alt="some image">
 						<div class="desc"
 							<h3>${this.name}</h3>
-							<p>${this.price}</p>
+							<p>${this.price} $</p>
 							<button class="buy-btn" 
 							data-id="${this.id}"
 							data-name="${this.name}"
@@ -94,8 +94,9 @@ function renderCart (i) {
 								<img src="${item.img}" alt="some image">
 								<div class="product-desc"
 									<p class="product-title">${item.name}</p>
-									<p class="product-quantity">${item.quantity}</p>
-									<p class="product-single-price">${item.price}</p>
+									<p class="product-quantity">${item.quantity} units</p>
+									<p class="product-single-price">${item.price} $</p>
+									<p class="product-total">${item.quantity*item.price} $</p>
 								</div>
 								<div class="right-block">
 									<button class="del-btn" data-id="${item.id}">&times;</button>
