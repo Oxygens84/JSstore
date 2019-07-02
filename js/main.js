@@ -1,122 +1,179 @@
 const image = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
 
-const NAMES = ['Tomato', 'Potato', 'Cucumber', 'Cherry', 'Cabbage', 'Watermelon']; //заглушка типа БД
-const PRICES = [300, 60, 980, 360, 34, 80]; //заглушка типа БД
-const ids = [0, 1, 2, 3, 4, 5];
-
-const PRODUCTS = fetchData (); //заглушка ответа с сервера
-const userCart = [];
-var cartBlock = document.querySelector('.cart-block');
-
-document.querySelector('.btn-cart').addEventListener ('click', () => {
-	cartBlock.classList.toggle ('invisible');
-})
-
-document.querySelector('.products').addEventListener ('click', (evt) => {
-	if (evt.target.classList.contains ('buy-btn')) {
-		addProduct (evt.target)
-	}
-})
-
-
-document.querySelector('.cart-block').addEventListener ('click', (evt) => {
-	if (evt.target.classList.contains ('del-btn')) {
-		removeProduct (evt.target)
-	}
-})
+const items = ['Notebook', 'Display', 'Keyboard', 'Mouse', 'Phones', 'Router', 'USB-camera', 'Gamepad'];
+const prices = [1000, 200, 20, 10, 25, 30, 18, 24];
+const ids = [1, 2, 3, 4, 5, 6, 7, 8];
 
 function fetchData () {
 	let arr = [];
-	for (let i = 0; i < ids.length; i++) {
-		arr.push (createProduct (i))
+	for (let i = 0; i < items.length; i++) {
+		arr.push ({
+			id: ids[i],
+			title: items[i],
+			price: prices[i],
+			img: image,
+		});
 	}
 	return arr
 }
 
-function createProduct (i) {
-	return {
-		id: i,
-		name: NAMES [i],
-		price: PRICES [i],
-		img: image,
-		quantity: 0,
-		createTemplate: function () {
-			return `<div class="product-item" data-id="${this.id}>
-						<img src="${this.img}" alt="some image">
-						<div class="desc"
-							<h3>${this.name}</h3>
-							<p>${this.price} $</p>
-							<button class="buy-btn" 
-							data-id="${this.id}"
-							data-name="${this.name}"
-							data-price="${this.price}">КУПИТЬ</button>
-						</div>
-					</div>`
-		}
+
+class ProductList {
+	constructor () {
+		this.products = []
+		this._init ()
 	}
-}
-
-function renderProducts () {
-	let str = ''
-	for (let product of PRODUCTS) {
-		str += product.createTemplate ()
+	_init () {
+		this.fetchProducts ()
+		this.render ()
 	}
-	document.querySelector('.products').innerHTML = str
-}
-
-renderProducts ()
-
-function addProduct (product) {
-	let productID = +product.dataset['id'];
-	let find = userCart.find (element => element.id === productID); //element (true) / false
-
-	if (!find) {
-		userCart.push ({
-			id: productID,
-			name: product.dataset['name'],
-			price: +product.dataset['price'],
-			img: cartImage,
-			quantity: 1
+	fetchProducts () {
+		this.products = fetchData()
+	}
+	render() {
+		const block = document.querySelector ('.products')
+		this.products.forEach(product => {
+			const prod = new Product (product)
+			block.insertAdjacentHTML('beforeend', prod.render())
 		})
-	} else {
-		find.quantity ++
 	}
-	renderCart () 
+}
+
+class Product {
+	constructor (product) {
+		this.id = product.id
+		this.title = product.title
+		this.price = product.price
+		this.img = product.img
+	}
+	render () {
+		return `<div class="product-item" data-id="${this.id}">
+                        <img src="${this.img}" alt="Some img">
+                        <div class="desc">
+                            <h3>${this.title}</h3>
+                            <p>${this.price} $</p>
+                            <button class="buy-btn" 
+                            data-name="${this.title}"
+                            data-image="${this.img}"
+                            data-price="${this.price}"
+                            data-id="${this.id}">Купить</button>
+                        </div>
+                    </div>`
+	}
+}
+
+let productList = new ProductList ();
+
+class UserCart {
+	constructor () {
+		this.userCart = []
+		this.totalSum = 0
+		this._init ()
+	}
+	_init () {
+		this.render()
+	}
+	addProduct (product) {
+		let productId = +product.dataset['id'];
+		let find = this.userCart.find(element => element.id === productId)
+		if (!find) {
+			this.userCart.push ({
+				id: productId,
+				title: product.dataset['name'],
+				img: cartImage,
+				price: product.dataset['price'],
+				quantity: 1
+			})
+		} else {
+			find.quantity++
+		}
+		this.calculateTotalSum();
+		this.render();
+	}	
+	removeProduct (product) {
+		let productId = +product.dataset['id'];
+		let find = this.userCart.find(element => element.id === productId)
+		if (find.quantity > 1) {
+			find.quantity--
+		} else {
+			this.userCart.splice (this.userCart.indexOf(find), 1);
+			document.querySelector (`.cart-item[data-id="${productId}"]`).remove ()
+		}
+		this.calculateTotalSum();
+		this.render();
+	}
+	calculateTotalSum(){
+		this.totalSum = 0
+		this.userCart.forEach(product => {
+				const prod = new ItemCart(product)
+				this.totalSum += (prod.sum)
+		})
+	}
+	render() {
+	 	let allProducts = '';
+	 	this.userCart.forEach(product => {
+					const prod = new ItemCart(product)
+					allProducts += prod.render()
+			})
+		document.querySelector ('.cart-block').innerHTML = allProducts;
+		this.renderTotal()
+	}
+	renderTotal(){
+		const block = document.querySelector ('.cart-block')
+		const total = `<div class="cart-total" ">
+	                            <div class="right-block">
+	                                <p class="cart-sum">Total: $ ${this.totalSum}</p>
+	                            </div>
+	                        </div>`
+		block.insertAdjacentHTML('beforeend', total)
+	}
+}
+
+class ItemCart {
+	constructor (product) {
+		this.id = product.id
+		this.title = product.title
+		this.price = product.price
+		this.quantity = product.quantity
+		this.img = product.img
+		this.sum = product.price * product.quantity
+	}
+	render () {
+		return `<div class="cart-item" data-id="${this.id}">
+	                            <div class="product-bio">
+	                                <img src="${this.img}" alt="Some image">
+	                                <div class="product-desc">
+	                                    <p class="product-title">${this.title}</p>
+	                                    <p class="product-quantity">Quantity: ${this.quantity}</p>
+	                                    <p class="product-single-price">$ ${this.price} each</p>
+	                                </div>
+	                            </div>
+	                            <div class="right-block">
+	                                <p class="product-price">$ ${this.sum}</p>
+	                                <button class="del-btn" data-id="${this.id}">&times;</button>
+	                            </div>
+	                        </div>`
+	}
 }
 
 
-function renderCart (i) {
-	let allProducts = '';
-	for (item of userCart) {
-		allProducts += `<div class="cart-item" data-id="${item.id}>
-							<div class="product-bio">
-								<img src="${item.img}" alt="some image">
-								<div class="product-desc"
-									<p class="product-title">${item.name}</p>
-									<p class="product-quantity">${item.quantity} units</p>
-									<p class="product-single-price">${item.price} $</p>
-									<p class="product-total">${item.quantity*item.price} $</p>
-								</div>
-								<div class="right-block">
-									<button class="del-btn" data-id="${item.id}">&times;</button>
-								</div>
-							</div>
-						</div>`
+var userCart = new UserCart;
+
+
+document.querySelector ('.btn-cart').addEventListener ('click', () => {
+	document.querySelector ('.cart-block').classList.toggle ('invisible')
+})
+
+document.querySelector ('.products').addEventListener ('click', (evt) => {
+	if (evt.target.classList.contains ('buy-btn')) {
+		userCart.addProduct(evt.target);
 	}
-	cartBlock.innerHTML = allProducts
-}
+})
 
-
-function removeProduct (product) {
-	let productID = +product.dataset['id'];
-	let find = userCart.find (element => element.id === productID);
-
-	if (find.quantity > 1) {
-		find.quantity --
-	} else {
-		userCart.splice (userCart.indexOf(find), 1)
-		document.querySelector (`.cart-item[data-id="${productID}"]`)
+document.querySelector ('.cart-block').addEventListener ('click', (evt) => {
+	if (evt.target.classList.contains ('del-btn')) {
+		userCart.removeProduct (evt.target);
 	}
-	renderCart ()
-}
+})
+
