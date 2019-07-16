@@ -49,6 +49,17 @@ button:focus{
 p {
     margin: 0 0 5px 0;
 }
+.filteredProducts{
+    column-gap: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-rows: 1fr;
+    padding: 40px 80px;
+    justify-content: space-between;
+}
+p {
+    margin: 0 0 5px 0;
+}
 .product-item{
     display: flex;
     flex-direction: column;
