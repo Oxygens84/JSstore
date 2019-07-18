@@ -11,56 +11,20 @@
     <header>
         <div class="logo">E-shop</div>
         <div class="cart">
-            <form action="#" class="search-form">
-                <input type="text" class="search-field" v-model="searchLine" @click="search_product ()">
-                <button class="btn-search" type="submit" @click="search_product ()">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <button class="btn-cart" type="button" @click="show_cart ()">SHOP CART</button>
-
-            <div v-if="isVisibleCart" class="cart-block">
-
-                <div class="cart-item" data-id="${this.id_product}" v-for="item of cart">
-                    <div class="item-bio">
-                        <div class="item-desc">
-                            <p class="item-title">{{ item.product_name }}</p>
-                            <p class="item-quantity">Quantity: {{ item.quantity }}</p>
-                            <p class="item-single-price">price: $ {{ item.price }}</p>
-                        </div>
-                    </div>
-                    <div class="right-block">
-                        <p class="item-price">$ {{ item.sum }}</p>
-                        <button class="del-btn" data-id="${this.id_product}" @click="remove_product(item)">&times;</button>
-                    </div>                    
-                </div>
-
-                <div class="cart-total">
-                    <div class="right-block">
-                          <p class="cart-sum" v-if="cartTotal > 0">Total: $ {{ cartTotal }}</p>
-                          <p class="cart-sum" v-else>Oops. Cart is empty</p>
-                    </div>
-                </div>
-
-            </div>
+            <filter ref="filter"></filter>
+            <cart ref="cart"></cart>
         </div>
     </header>
     <main>
-        <div class="filteredProducts">
-            <div class="product-item" data-id="${this.id_product}" v-for="product of filteredProducts">
-                 <img :src="imgCatalog" alt="Some image">
-                 <div class="desc">
-                     <h3>{{ product.product_name }}</h3>
-                     <p>{{ product.price }} $</p>
-                     <button class="buy-btn" @click="add_product(product)">BUY</button>
-                 </div>
-            </div>
-        </div>
+        <products ref="products"></products>
     </main>
   </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+    <script src="js/ProductComp.js"></script>
+    <script src="js/FilterComp.js"></script>
+    <script src="js/ShopCartComp.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
