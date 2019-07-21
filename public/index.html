@@ -11,20 +11,23 @@
     <header>
         <div class="logo">E-shop</div>
         <div class="cart">
-            <filter ref="filter"></filter>
-            <cart ref="cart"></cart>
+              <filter_el ref="filter"></filter_el>
+              <cart ref="cart"></cart>
         </div>
     </header>
     <main>
         <products ref="products"></products>
+        <error ref="error"></error>
     </main>
   </div>
 
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-    <script src="js/ProductComp.js"></script>
+    <script src="js/ProdComp.js"></script>
+    <script src="js/ErrorComp.js"></script>
     <script src="js/FilterComp.js"></script>
-    <script src="js/ShopCartComp.js"></script>
+    <script src="js/CartComp.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
