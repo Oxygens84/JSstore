@@ -78,7 +78,6 @@ const cart = {
     },
     template: `   
     <div>
-<!--        <filter_el ref="filter"></filter_el>-->
         <button class="btn-cart" type="button" @click="cartShown = !cartShown">SHOP CART</button>   
         <div class="cart-block" v-show="cartShown">
             <p v-if="!cartItems.length">Ooops. Cart is empty</p>
