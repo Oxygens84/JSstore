@@ -1,0 +1,12 @@
+{
+    "amount": 1600,
+    "countGoods": 1,
+    "contents": [
+        {
+            "quantity": 1,
+            "id_product": 123,
+            "product_name": "Laptop",
+            "price": 45600
+        }
+    ]
+}

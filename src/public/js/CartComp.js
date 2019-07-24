@@ -18,15 +18,14 @@ const cartItem = {
 }
 
 const cart = {
-    components: {'cart-item': cartItem},
     data () {
         return {
-            cartUrl: '/getBasket.json',
             imgCart: 'https://placehold.it/50x100',
             cartShown: false,
             cartItems: []
         }
     },
+    components: {'cart-item': cartItem},
     methods: {
         addProduct (product) {
             let find = this.cartItems.find(el => el.id_product === product.id_product);
@@ -88,4 +87,6 @@ const cart = {
         </div>
     </div>    
     `
-}
+};
+
+export default cart;
