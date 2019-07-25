@@ -4,9 +4,9 @@
     "contents": [
         {
             "quantity": 1,
-            "id_product": 123,
-            "product_name": "Laptop",
-            "price": 45600
+            "id_product": 124,
+            "product_name": "Keyboard",
+            "price": 1600
         }
     ]
 }
