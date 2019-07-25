@@ -1,4 +1,4 @@
-const filter_el = {
+const filterEl = {
     data () {
         return {
             userSearch: ''
@@ -12,4 +12,6 @@ const filter_el = {
         </button>
     </form>
     `
-}
+};
+
+export default filterEl;

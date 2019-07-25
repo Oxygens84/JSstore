@@ -45,4 +45,6 @@ const products = {
         :product="product"></product>
     </div>
     `
-}
+};
+
+export default products;

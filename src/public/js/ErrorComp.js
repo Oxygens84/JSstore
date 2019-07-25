@@ -17,4 +17,6 @@ const error = {
                     </p>
                 </div>
     `
-}
+};
+
+export default error;

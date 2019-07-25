@@ -1,6 +1,9 @@
-const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
+import cart from './CartComp.js'
+import products from './ProdComp.js'
+import error from './ErrorComp.js'
+import filterEl from './FilterComp.js'
 
-let app = new Vue ({
+let app = {
     el: '#app',
     data: {
         catalogUrl: '/catalogData.json',
@@ -10,7 +13,12 @@ let app = new Vue ({
         userSearch: '',
         cartShown: false
     },
-    components: {cart, products, filter_el, error},
+    components: {
+        cart,
+        error,
+        products,
+        'filter-el': filterEl
+    },
     methods: {
         getJson(url){
             return fetch(url)
@@ -62,12 +70,10 @@ let app = new Vue ({
                     console.log(error)
                 })
         },
-        addProduct(product){
-            console.log(product.id_product);
-        },
     },
     mounted(){
         console.log (this)
     }
-})
+};
 
+export default app;
