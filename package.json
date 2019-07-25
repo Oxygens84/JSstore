@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --ignore dist/server/db/userCart.json dist/server/server.js",
-    "buildDevMac": "rm -r  dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
-    "buildDevWin": "rd /s  dist && webpack --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
+    "buildDevMac": "rm -r  dist && webpack -w --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
+    "buildDevWin": "rd /s  dist && webpack -w --mode development --config webpack.server.config.js && webpack --mode development --config webpack.dev.config.js",
     "buildProd": "rm -r dist && webpack --mode production --config webpack.server.config.js && webpack --mode production --config webpack.prod.config.js"
   },
   "repository": {
